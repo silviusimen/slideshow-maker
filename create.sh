@@ -1,30 +1,31 @@
 #!/bin/bash
 
-#INPUT_DIR=/mnt/c/data/to_bakup/pics/2023/New_Zealand_ASEMP_Excursion/
-INPUT_DIR=/mnt/c/data/to_bakup/pics/2023/New_Zealand/
-#INPUT_DIR=/mnt/c/git/slideshow-maker/data
+INPUT_DIR="$1"
+AUDIO_FILE="$2"
+
+if [ ! -d "$INPUT_DIR" ] ; then
+	echo "Invalid input directory $INPUT_DIR !"
+	exit 1
+fi
+
+if [ ! -f "$AUDIO_FILE" ] ; then
+	# https://uppbeat.io/track/brock-hewitt-stories-in-sound/ages-ago
+  DEFAULT_AUDIO_FILE=audio_media/ages-ago-brock-hewitt-stories-in-sound-main-version-16212-04-06.mp3
+	echo "Invalid input audio track $AUDIO_FILE, using default $DEFAULT_AUDIO_FILE"
+	AUDIO_FILE="$DEFAULT_AUDIO_FILE"
+fi
+
+echo "Using input directory $INPUT_DIR and audio track $AUDIO_FILE"
 
 FRAME_RATE=30
 IMAGE_TIME_SEC=10
 TRANSITION_TIME_FRAMES=20
 IMAGE_FRAMES=$((IMAGE_TIME_SEC*FRAME_RATE + TRANSITION_TIME_FRAMES))
-AUDIO_FILE=audio_media/ages-ago-brock-hewitt-stories-in-sound-main-version-16212-04-06.mp3
 OUT_VIDEO_FILE=output.mp4
 VIDEO_FILE_WITH_AUDIO=output_with_audio.mp4
 FINAL_VIDEO_FILE=final.mp4
 
 MELT=melt
-
-# function slideshow_2() {
-# 	melt \
-# 	data/* ttl=75 \
-# 	-attach crop center=1 \
-# 	-attach affine transition.cycle=225 transition.geometry="0=0/0:100%x100%;74=-100/-100:120%x120%;75=-60/-60:110%x110%;149=0/0:110%x110%;150=0/-60:110%x110%;224=-60/0:110%x110%" \
-# 	-filter luma cycle=75 duration=25 \
-# 	-track $AUDIO_FILE \
-# 	-transition mix \
-# 	-consumer avformat:ss2.mp4 -progress 
-# }
 
 function has_extension()
 {
@@ -121,7 +122,16 @@ function add_audio()
 	#get_file_len_secs $FINAL_VIDEO_FILE
 }
 
-# generate_input_file_list input_files.txt
-# generate_melt_script_fom_filelist input_files.txt > script.melt
-# render_files script.melt
-add_audio
+function generate_slideshow()
+{
+	local input_file=$(mktemp)
+	generate_input_file_list $input_file
+	local script_file=$(mktemp /tmp/script-XXXXXX.melt)
+	generate_melt_script_fom_filelist $input_file > $script_file
+	render_files $script_file
+	add_audio
+	echo rm -f $input_file $script_file $OUT_VIDEO_FILE $VIDEO_FILE_WITH_AUDIO
+	rm -f $input_file $script_file $OUT_VIDEO_FILE $VIDEO_FILE_WITH_AUDIO
+}
+
+generate_slideshow
