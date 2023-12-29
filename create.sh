@@ -54,11 +54,11 @@ function process_file()
 	local file=$1
 	local first=$2
 	echo "$file"
-	if has_extension $file "jpg" ; then
+	if has_extension "$file" "jpg" ; then
 		echo "out=$IMAGE_FRAMES"
 	fi
 
-	if has_extension $file "jpeg" ; then
+	if has_extension "$file" "jpeg" ; then
 		echo "out=$IMAGE_FRAMES"
 	fi
 
@@ -73,7 +73,7 @@ function generate_melt_script_fom_filelist()
 	FIRST_FILE=0
 
 	while read file; do
-		process_file $file $FIRST_FILE
+		process_file "$file" $FIRST_FILE
 		if [ "$FIRST_FILE" == "0" ] ; then
 			FIRST_FILE=1
 		fi
@@ -140,7 +140,6 @@ function generate_slideshow()
 	local final_file=$(basename $INPUT_DIR).mp4
 	echo "Renaming $FINAL_VIDEO_FILE to $final_file"
 	mv $FINAL_VIDEO_FILE $final_file
-	#echo rm -f $input_file $script_file $OUT_VIDEO_FILE $VIDEO_FILE_WITH_AUDIO 
 	rm -f $input_file $script_file $OUT_VIDEO_FILE $VIDEO_FILE_WITH_AUDIO 
 }
 
