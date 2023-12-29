@@ -83,12 +83,14 @@ function generate_melt_script_fom_filelist()
 function render_files()
 {
 	local script=$1
+	echo "Rendering images to $OUT_VIDEO_FILE"
 	$MELT $script -consumer avformat:$OUT_VIDEO_FILE frame_rate_num=$FRAME_RATE width=1920 height=1080 sample_aspect_num=1 sample_aspect_den=1 -progress
 }
 
 function generate_input_file_list()
 {
 	local input_file_list=$1
+	echo "Generating file list from $INPUT_DIR to $input_file_list"
 	find "$INPUT_DIR" -type f -print > $input_file_list
 }
 
@@ -126,12 +128,20 @@ function generate_slideshow()
 {
 	local input_file=$(mktemp)
 	generate_input_file_list $input_file
+
 	local script_file=$(mktemp /tmp/script-XXXXXX.melt)
+	echo "Generating melt script $script_file"
 	generate_melt_script_fom_filelist $input_file > $script_file
+
 	render_files $script_file
+
 	add_audio
-	echo rm -f $input_file $script_file $OUT_VIDEO_FILE $VIDEO_FILE_WITH_AUDIO
-	rm -f $input_file $script_file $OUT_VIDEO_FILE $VIDEO_FILE_WITH_AUDIO
+
+	local final_file=$(basename $INPUT_DIR).mp4
+	echo "Renaming $FINAL_VIDEO_FILE to $final_file"
+	mv $FINAL_VIDEO_FILE $final_file
+	#echo rm -f $input_file $script_file $OUT_VIDEO_FILE $VIDEO_FILE_WITH_AUDIO 
+	rm -f $input_file $script_file $OUT_VIDEO_FILE $VIDEO_FILE_WITH_AUDIO 
 }
 
 generate_slideshow
