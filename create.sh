@@ -137,9 +137,9 @@ function generate_slideshow()
 
 	add_audio
 
-	local final_file=$(basename $INPUT_DIR).mp4
+	local final_file=$(basename "$INPUT_DIR").mp4
 	echo "Renaming $FINAL_VIDEO_FILE to $final_file"
-	mv $FINAL_VIDEO_FILE $final_file
+	mv $FINAL_VIDEO_FILE "$final_file"
 	rm -f $input_file $script_file $OUT_VIDEO_FILE $VIDEO_FILE_WITH_AUDIO 
 }
 
