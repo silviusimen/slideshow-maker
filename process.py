@@ -1,16 +1,20 @@
 import json
+import glob
+import os
 
 from slideshowmaker.metadata import get_metadata
 from slideshowmaker.cache import read_cache, write_cache
+from slideshowmaker.geotagging import get_location_info
 
 CACHE_FILE = "cache/cache.json"
 
 read_cache(CACHE_FILE)
 
-img_metadata = get_metadata("data/PXL_20231203_000521027.jpg")
-print(img_metadata)
+files = glob.glob(os.path.join("", "data/", "*.*"))
 
-vid_metadata = get_metadata("data/PXL_20231203_230925244.TS.mp4")
-print(vid_metadata)
+for filename in files:
+    metadata = get_metadata(filename)
+    location_info = get_location_info(filename, (metadata[1], metadata[2]))
+    # print(metadata)
 
 write_cache(CACHE_FILE)

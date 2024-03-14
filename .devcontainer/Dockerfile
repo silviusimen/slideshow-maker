@@ -13,5 +13,7 @@ RUN python3 -m pip install dataprep==0.4.0
 
 RUN python3 -m pip install overpy
 
+RUN apt-get install -y git bash-completion
+
 #RUN set -e; apt-get -yq autoremove; apt-get autoclean
 

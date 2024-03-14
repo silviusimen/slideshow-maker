@@ -34,6 +34,7 @@
   ],
   "mounts": [
     // "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+    "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind",
     // "source=/run/host-services/ssh-auth.sock,target=/run/host-services/ssh-auth.sock,type=bind",
   ],
   "postAttachCommand": [
