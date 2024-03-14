@@ -1,5 +1,7 @@
 data/
 audio_media/
+__pycache__
+cache/
 *.melt
 *.mp4
 *.txt

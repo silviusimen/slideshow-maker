@@ -1,0 +1,45 @@
+{
+  "name": "slideshowmaker-devcon",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".",
+    "args": {}
+  },
+  "containerEnv": {
+    "DEVCONTAINER": "1",
+    // "SSH_AUTH_SOCK": "/run/host-services/ssh-auth.sock",
+    "HOST_HOME": "${localEnv:HOME}",
+  },
+  "settings": {
+    "editor.formatOnSave": true,
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter",
+      "editor.codeActionsOnSave": {
+        "source.formatOnSave": true,
+        "source.organizeImports": "explicit",
+        "source.organizeImports.reorder-python-imports": "explicit"
+      },
+    },
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "telemetry.telemetryLevel": "off"
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "editorconfig.editorconfig",
+    "ms-python.black-formatter",
+    "ms-vscode.makefile-tools",
+  ],
+  "mounts": [
+    // "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+    // "source=/run/host-services/ssh-auth.sock,target=/run/host-services/ssh-auth.sock,type=bind",
+  ],
+  "postAttachCommand": [
+    ".devcontainer/post_attach.bash"
+  ],
+  "forwardPorts": [
+    8080
+  ]
+}
