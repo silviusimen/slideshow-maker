@@ -19,8 +19,8 @@ def _lookup_location_metadata(lat: float, lon: float) -> dict:
     return location_data
 
 
-def _get_open_map_url(lat: float, lon: float) -> str:
-    return f"https://www.openstreetmap.org/#map=19/{lat}/{lon}"
+def get_open_map_url(lat: float, lon: float, zoom=19) -> str:
+    return f"https://www.openstreetmap.org/#map={zoom}/{lat}/{lon}"
 
 
 def _lookup_location_arround(tag: str, value: str, lat: float, lon: float) -> dict:
@@ -60,7 +60,7 @@ def get_location_info(file: str, gps_location: tuple) -> dict:
     lat = gps_location[0]
     lon = gps_location[1]
     location_data = _lookup_location_metadata(lat, lon)
-    url = _get_open_map_url(lat, lon)
+    url = get_open_map_url(lat, lon)
     location_poi = _lookup_location_poi(lat, lon)
     print(f"{file} - {location_data['display_name']} {url}")
     _list_local_poi(location_poi, lat, lon)
