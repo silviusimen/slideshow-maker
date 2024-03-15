@@ -1,5 +1,6 @@
 from exif import Image
 import dateutil
+import datetime
 
 
 def dms2dd(degrees, minutes, seconds, direction: str):
@@ -35,8 +36,17 @@ def get_gps_coordinates(image: Image) -> tuple:
 
 
 def get_timestamp(image: Image) -> tuple:
-    DT = dateutil.parser.parse(image["datetime"]).isoformat()
-    return (DT,)
+    try:
+        datetime_str = image["datetime"]
+        # for some reason dateutil.parser.parse() converts '2023:12:03 13:05:21' to '2024-03-15T13:05:21'
+        # datetime_parsed = dateutil.parser.parse(datetime_str)
+        # timestamp_iso = datetime_parsed.isoformat()
+        datetime_parsed2 = datetime.datetime.strptime(datetime_str, "%Y:%m:%d %H:%M:%S")
+        timestamp_iso2 = datetime_parsed2.isoformat()
+    except Exception as e:
+        print(e)
+        return (None,)
+    return (timestamp_iso2,)
 
 
 def get_image_metadata(filename: str) -> tuple:

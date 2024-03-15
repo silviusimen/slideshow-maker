@@ -14,7 +14,7 @@ files = glob.glob(os.path.join("", "data/", "*.*"))
 
 for filename in files:
     metadata = get_metadata(filename)
-    location_info = get_location_info(filename, (metadata[1], metadata[2]))
-    # print(metadata)
+    # location_info = get_location_info(filename, (metadata[1], metadata[2]))
+    print(metadata)
 
 write_cache(CACHE_FILE)
