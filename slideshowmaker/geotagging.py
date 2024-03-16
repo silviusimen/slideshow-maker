@@ -19,7 +19,7 @@ def _lookup_location_metadata(lat: float, lon: float) -> dict:
     return location_data
 
 
-def get_open_map_url(lat: float, lon: float, zoom=19) -> str:
+def get_open_map_url(lat: float, lon: float, zoom: int = 19) -> str:
     return f"https://www.openstreetmap.org/#map={zoom}/{lat}/{lon}"
 
 

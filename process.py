@@ -16,10 +16,15 @@ def jprint(data):
 
 read_cache(CACHE_FILE)
 
+md = get_metadata("data/PXL_20231203_000521027.jpg")
+# md = Metadata("test", "2024-01-01")
+# md.json_print()
+
+
 files = glob.glob(os.path.join("", "data/", "*.*"))
 
-clusters = cluster_media(files)
-jprint(clusters)
+# clusters = cluster_media(files)
+# jprint(clusters)
 
 # for filename in files:
 #     metadata = get_metadata(filename)

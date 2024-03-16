@@ -1,7 +1,9 @@
-from slideshowmaker.image_metadata import get_image_metadata
-from slideshowmaker.video_metadata import get_video_metadata
+from .image_metadata import get_image_metadata
+from .video_metadata import get_video_metadata
 
-from slideshowmaker.cache import get_cache, set_cache
+from .cache import get_cache, set_cache
+
+from .models.metadata import Metadata
 
 
 def _tuple_metadata_to_dict(meetadata: tuple) -> dict:
@@ -12,7 +14,7 @@ def _tuple_metadata_to_dict(meetadata: tuple) -> dict:
     }
 
 
-def get_metadata(filename: str) -> tuple:
+def get_metadata(filename: str) -> Metadata:
     cache_key = "metadata_info_" + filename
     metadata = get_cache(cache_key)
     if metadata != None:
