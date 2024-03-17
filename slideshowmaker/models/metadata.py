@@ -10,11 +10,5 @@ class Metadata(CacheableObject):
         self.set("ts", timestamp)
         self.set("geo", geo)
 
-    def load_from_cache(self, cache: Cache) -> bool:
-        loadad = CacheableObject.load_from_cache(self, cache)
-        if loadad:
-            geo_dict = self.get("geo")
-            geo = Geolocation()
-            geo.unserialize(geo_dict)
-            self.set("geo", geo)
-        return loadad
+    def get_fields_to_unserialize(self):
+        return {"geo": (lambda: Geolocation())}

@@ -1,12 +1,13 @@
 from collections import UserDict
+from typing import Callable
+
 import json
 
 
 class SerializableObject(UserDict):
     def __init__(self, **kwargs):
         UserDict.__init__(self)
-        for key, value in kwargs.items():
-            self.set(key, value)
+        self.unserialize(kwargs)
 
     def set(self, name: str, value) -> None:
         setattr(self, name, value)
@@ -17,14 +18,20 @@ class SerializableObject(UserDict):
 
     def serialize(self) -> dict:
         d = dict(self)
-        for k in d.keys():
-            if isinstance(d[k], SerializableObject):
-                d[k] = d[k].serialize()
+        for key, value in d.items():
+            if isinstance(value, SerializableObject):
+                d[key] = value.serialize()
         return d
 
     def unserialize(self, d: dict) -> None:
-        for k in d.keys():
-            self.set(k, d[k])
+        for key, value in d.items():
+            self.set(key, value)
 
     def json_print(self) -> None:
         print(json.dumps(self.serialize(), indent=4))
+
+    def load_field(self, name: str, type_generator: Callable) -> bool:
+        d = self.get(name)
+        ser_object = type_generator()
+        ser_object.unserialize(d)
+        self.set(name, ser_object)

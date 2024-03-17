@@ -14,6 +14,13 @@ class CacheableObject(SerializableObject):
         d = cache.get(self.__cache_name)
         if d != None:
             self.unserialize(d)
+            fields = self.get_fields_to_unserialize()
+            for field_name in fields.keys():
+                field_creator = fields[field_name]
+                self.load_field(field_name, field_creator)
             return True
         else:
             return False
+
+    def get_fields_to_unserialize(self):
+        return dict()

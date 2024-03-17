@@ -5,3 +5,6 @@ cache/
 *.melt
 *.mp4
 *.txt
+*.tgz
+recv.sh
+send.sh

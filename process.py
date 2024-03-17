@@ -2,37 +2,37 @@ import json
 import glob
 import os
 
-from slideshowmaker.metadata.common import get_metadata
+from slideshowmaker.models.base_object import SerializableObject
+from slideshowmaker.metadata.tools import MetadataTools
+from slideshowmaker.clustering.clusterer import Clusterer
 from slideshowmaker.file_cache import FileCache
 
-# from slideshowmaker.geotagging import get_location_info
-# from slideshowmaker.clustering import cluster_media
-
-cache = FileCache("cache/cache2.json")
+cache = FileCache("cache/cache.json")
 cache.load()
 
 
-# def jprint(data):
-#     print(json.dumps(data, indent=4))
+def serialize(data):
+    if isinstance(data, SerializableObject):
+        return data.serialize()
+    if isinstance(data, list):
+        return [serialize(x) for x in data]
+    if isinstance(data, dict):
+        d = dict()
+        for key, value in data.items():
+            d[key] = serialize(value)
+        return d
+    return data
 
-get_metadata("data/PXL_20231203_000521027.jpg", cache)
-# read_cache(CACHE_FILE)
 
-# md = get_metadata("data/PXL_20231203_000521027.jpg")
-# write_cache(CACHE_FILE)
-# md = Metadata("test", "2024-01-01")
-# md.json_print()
+def jprint(data):
+    print(json.dumps(serialize(data), indent=4))
 
 
-# files = glob.glob(os.path.join("", "data/", "*.*"))
+files = glob.glob(os.path.join("", "data/", "*.*"))
 
-# # clusters = cluster_media(files)
-# # jprint(clusters)
-
-# for filename in files:
-#     metadata = get_metadata(filename, cache)
-#     # location_info = get_location_info(filename, (metadata[1], metadata[2]))
-#     # print(metadata)
+metadata_list = MetadataTools.get_metadata_for_files(files, cache)
+# jprint(metadata_list)
+clusters = Clusterer.cluster_media(metadata_list)
+jprint(clusters)
 
 cache.save()
-# write_cache(CACHE_FILE)
