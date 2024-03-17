@@ -1,6 +1,8 @@
 from exif import Image
 import dateutil
 import datetime
+from ..models.metadata import Metadata
+from ..models.geolocation import Geolocation
 
 
 def dms2dd(degrees, minutes, seconds, direction: str):
@@ -20,12 +22,12 @@ def convert_exif_gps_location(
     dec_lor = dms2dd(
         gps_longitude[0], gps_longitude[1], gps_longitude[2], gps_longitude_ref
     )
-    return (dec_la, dec_lor)
+    return Geolocation(dec_la, dec_lor)
 
 
 def get_gps_coordinates(image: Image) -> tuple:
     if not image.has_exif:
-        return (None, None)
+        return None
 
     return convert_exif_gps_location(
         image["gps_latitude"],
@@ -45,16 +47,16 @@ def get_timestamp(image: Image) -> tuple:
         timestamp_iso2 = datetime_parsed2.isoformat()
     except Exception as e:
         print(e)
-        return (None,)
-    return (timestamp_iso2,)
+        return None
+    return timestamp_iso2
 
 
 def get_image_metadata(filename: str) -> tuple:
     with open(filename, "rb") as image_file:
         try:
             image = Image(image_file)
-            gps_data = get_gps_coordinates(image)
+            geo = get_gps_coordinates(image)
             timestamp = get_timestamp(image)
-            return timestamp + gps_data
+            return Metadata(filename, timestamp, geo)
         except Exception:
-            return (None, None, None)
+            return None

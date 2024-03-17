@@ -1,4 +1,4 @@
-from slideshowmaker.metadata import get_metadata
+from slideshowmaker.metadata.common import get_metadata
 
 from slideshowmaker.geotagging import get_open_map_url
 from slideshowmaker.geocalculator import get_bounding_size

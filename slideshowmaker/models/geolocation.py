@@ -1,8 +1,8 @@
-from .base_object import BaseObject
+from .base_object import SerializableObject
 
 
-class Geolocation(BaseObject):
+class Geolocation(SerializableObject):
     def __init__(self, lat: float = None, lon: float = None):
-        BaseObject.__init__(self)
-        self._set("lat", lat)
-        self._set("lon", lon)
+        SerializableObject.__init__(self)
+        self.set("lat", lat)
+        self.set("lon", lon)

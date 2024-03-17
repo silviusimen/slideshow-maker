@@ -1,4 +1,4 @@
-from slideshowmaker.cache import get_cache, set_cache
+from slideshowmaker.file_cache import get_cache, set_cache
 from geopy.geocoders import Nominatim
 import json
 
