@@ -1,24 +1,14 @@
-import json
-import glob
-import os
-
-from slideshowmaker.models.base_object import SerializableObject
 from slideshowmaker.metadata.tools import MetadataTools
 from slideshowmaker.clustering.clusterer import Clusterer
 from slideshowmaker.file_cache import FileCache
-from slideshowmaker.util.serializer import Serializer
+from slideshowmaker.util.serializer import jprint
+from slideshowmaker.util.files import FileUtil
 
 cache = FileCache("cache/cache.json")
 cache.load()
 
 
-
-
-def jprint(data):
-    print(json.dumps(Serializer.serialize(data), indent=4))
-
-
-files = glob.glob(os.path.join("", "data/", "*.*"))
+files = FileUtil.get_input_files()
 
 metadata_list = MetadataTools.get_metadata_for_files(files, cache)
 # jprint(metadata_list)
