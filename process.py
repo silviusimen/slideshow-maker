@@ -11,7 +11,7 @@ cache.load()
 files = FileUtil.get_input_files()
 
 metadata_list = MetadataTools.get_metadata_for_files(files, cache)
-# jprint(metadata_list)
+jprint(metadata_list)
 clusters = Clusterer.cluster_media(metadata_list)
 jprint(clusters)
 
