@@ -1,8 +1,16 @@
-from .models.geolocation import Geolocation
+from ..models.geolocation import Geolocation
 from geopy.geocoders import Nominatim
 import json
 
 import overpy
+
+from ..models.geolocation import Geolocation
+from ..models.geobox import GeoBox
+
+
+class GeoTag:
+
+    pass
 
 
 # def _lookup_location_metadata(lat: float, lon: float) -> dict:
@@ -17,11 +25,6 @@ import overpy
 #     location_data = location.raw
 #     # set_cache(cache_key, location_data)
 #     return location_data
-
-
-def get_open_map_url(geo: Geolocation, zoom: int = 19) -> str:
-    return f"https://www.openstreetmap.org/#map={zoom}/{geo.lat}/{geo.lon}"
-
 
 # def _lookup_location_arround(tag: str, value: str, lat: float, lon: float) -> dict:
 #     cache_key = (

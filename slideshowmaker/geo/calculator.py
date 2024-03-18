@@ -39,8 +39,7 @@ class GeoCalculator:
         )
         return GeoBox(gmin, gmax)
 
-    def get_bounding_size(positions: list[Geolocation]):
-        boundig_box = GeoCalculator.get_bounding_box(positions)
+    def get_bounding_size(boundig_box: GeoBox):
         size = GeoCalculator.distance_km(
             boundig_box.min.lat,
             boundig_box.max.lat,
@@ -48,3 +47,10 @@ class GeoCalculator:
             boundig_box.max.lon,
         )
         return size
+
+    def get_center(boundig_box: GeoBox):
+        center = Geolocation(
+            (boundig_box.max.lat + boundig_box.min.lat) / 2.0,
+            (boundig_box.max.lon + boundig_box.min.lon) / 2.0,
+        )
+        return center

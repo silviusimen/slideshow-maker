@@ -5,6 +5,7 @@ run:
 clean:
 	find ./ -name __pycache__ -type d | xargs rm -rf 
 	rm -f slideshowmaker.tgz
+	rm -rf tmp/
 	
 save-cache:
 	cp cache/cache.json cache/cache_save.json

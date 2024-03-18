@@ -1,6 +1,6 @@
-from ..metadata.tools import MetadataTools
+from ..metadata.metadata import MetadataTools
 
-from ..geo.geocalculator import GeoCalculator
+from ..geo.calculator import GeoCalculator
 from datetime import datetime
 from ..models.cache import Cache
 
@@ -21,9 +21,12 @@ class Clusterer:
 
     def _set_cluster_size(cluster_dict: dict) -> None:
         for key in cluster_dict.keys():
-            metadata_list = cluster_dict[key]["items"]
-            size = GeoCalculator.get_bounding_size([x["geo"] for x in metadata_list])
+            positions = [x["geo"] for x in cluster_dict[key]["items"]]
+            boundig_box = GeoCalculator.get_bounding_box(positions)
+            size = GeoCalculator.get_bounding_size(boundig_box)
             cluster_dict[key]["size"] = size
+            cluster_dict[key]["bounding_box"] = boundig_box
+            cluster_dict[key]["center"] = GeoCalculator.get_center(boundig_box)
 
     def cluster_media(metadata_list: list) -> dict:
         cluster_by_day = Clusterer._cluster_by_day(metadata_list)

@@ -1,6 +1,6 @@
 import json
 
-from .models.cache import Cache
+from ..models.cache import Cache
 
 
 class FileCache(Cache):

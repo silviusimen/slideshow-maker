@@ -3,7 +3,7 @@ from .video import get_video_metadata
 
 from ..models.metadata import Metadata
 from ..models.cache import Cache
-from ..geotagging import get_open_map_url
+from ..geo.map import Map
 
 
 class MetadataTools:
@@ -31,6 +31,6 @@ class MetadataTools:
         metadata_list = []
         for filename in files:
             metadata = MetadataTools.get_metadata_for_file(filename, cache)
-            metadata.set("map", get_open_map_url(metadata.geo, 12))
+            metadata.set("map", Map.get_url(metadata.geo, 12))
             metadata_list.append(metadata)
         return metadata_list
