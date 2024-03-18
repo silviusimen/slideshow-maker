@@ -2,9 +2,11 @@ data/
 audio_media/
 __pycache__
 cache/
+tmp/
 *.melt
 *.mp4
 *.txt
 *.tgz
 recv.sh
 send.sh
+commit_comment.txt

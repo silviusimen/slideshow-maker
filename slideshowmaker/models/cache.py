@@ -15,3 +15,7 @@ class Cache:
 
     def set(self, key: str, value):
         self.cache[key] = value
+
+    @abstractmethod
+    def save(self):
+        pass

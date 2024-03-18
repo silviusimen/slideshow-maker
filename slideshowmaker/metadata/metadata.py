@@ -3,7 +3,7 @@ from .video import get_video_metadata
 
 from ..models.metadata import Metadata
 from ..models.cache import Cache
-from ..geo.map import Map
+from ..map.map_osm import Map_OSM as Map
 
 
 class MetadataTools:
