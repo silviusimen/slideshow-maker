@@ -5,7 +5,7 @@ from ..models.cache import Cache
 
 class FileCache(Cache):
     def __init__(self, filenme: str):
-        Cache.__init__(self)
+        super().__init__()
         self.filename = filenme
 
     def load(self):

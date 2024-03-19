@@ -13,3 +13,6 @@ save-cache:
 build-archive: clean
 	tar --exclude='audio_media' --exclude='data' --exclude='.git' --exclude='cache' -czvvf slideshowmaker.tgz .vscode .gitignore * 
 
+build-docker:
+	docker build -f .devcontainer/Dockerfile .
+	

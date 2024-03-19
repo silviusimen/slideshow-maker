@@ -4,6 +4,8 @@ from slideshowmaker.util.file_cache import FileCache
 from slideshowmaker.util.serializer import jprint
 from slideshowmaker.util.files import FileUtil
 from slideshowmaker.map.map_osm import Map_OSM as Map
+from slideshowmaker.map.tile_manager import TileManager
+
 import os
 
 cache = FileCache("cache/cache.json")
@@ -17,7 +19,12 @@ metadata_list = MetadataTools.get_metadata_for_files(files, cache)
 # jprint(metadata_list)
 clusters = Clusterer.cluster_media(metadata_list)
 # jprint(clusters)
-map = Map(cache)
+
+http_cache = FileCache("cache/http_cache.json")
+http_cache.load()
+
+tileManager = TileManager(http_cache)
+map = Map(tileManager)
 
 for key, value in clusters.items():
     size = value["size"]
@@ -30,3 +37,4 @@ for key, value in clusters.items():
 # cluster_dict[key]["bounding_box"] = boundig_box
 
 cache.save()
+http_cache.save()

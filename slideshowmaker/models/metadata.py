@@ -5,7 +5,7 @@ from .geolocation import Geolocation
 
 class Metadata(CacheableObject):
     def __init__(self, name: str, timestamp=None, geo=None):
-        CacheableObject.__init__(self, name)
+        super().__init__(name)
         self.set("name", name)
         self.set("ts", timestamp)
         self.set("geo", geo)

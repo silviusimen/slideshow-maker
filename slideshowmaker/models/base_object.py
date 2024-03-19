@@ -6,7 +6,7 @@ import json
 
 class SerializableObject(UserDict):
     def __init__(self, **kwargs):
-        UserDict.__init__(self)
+        super().__init__()
         self.unserialize(kwargs)
 
     def set(self, name: str, value) -> None:

@@ -4,7 +4,7 @@ from .cache import Cache
 
 class CacheableObject(SerializableObject):
     def __init__(self, name: str):
-        SerializableObject.__init__(self)
+        super().__init__()
         self.__cache_name = name
 
     def save_to_cache(self, cache: Cache):

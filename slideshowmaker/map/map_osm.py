@@ -1,5 +1,6 @@
 from ..models.cache import Cache
 from ..models.geolocation import Geolocation
+from .tile_manager import TileManager
 import geotiler
 from PIL import Image
 from .map import Map, MAP_DEFAULT_ZOOM, MAP_DEFAULT_SIZE_X, MAP_DEFAULT_SIZE_Y
@@ -38,30 +39,11 @@ def num2deg(xtile, ytile, zoom):
 
 
 class Map_OSM(Map):
-    def __init__(self, cache: Cache):
-        self.cache = cache
-        self.__cache_prefix = "tile_cache_"
+    def __init__(self, tile_manager: TileManager):
+        self.tile_manager = tile_manager
 
     def get_url(geo: Geolocation, zoom: int = 19) -> str:
         return f"https://www.openstreetmap.org/#map={zoom}/{geo.lat}/{geo.lon}"
-
-    def getTileAsBytes(self, zoom: int, xtile: int, ytile: int) -> BytesIO:
-        smurl = r"http://a.tile.openstreetmap.org/{0}/{1}/{2}.png"
-        imgurl = smurl.format(zoom, xtile, ytile)
-        cache_key = self.__cache_prefix + imgurl
-        tile_cache = self.cache.get(cache_key)
-        if tile_cache != None:
-            return BytesIO(base64.b64decode(tile_cache))
-
-        response = requests.get(
-            imgurl, headers={"User-Agent": "SlideShow Generator/1.0"}
-        )
-
-        cache_value = base64.b64encode(response.content).decode("ascii")
-        self.cache.set(cache_key, cache_value)
-        self.cache.save()
-        image_bytes = BytesIO(response.content)
-        return image_bytes
 
     def getImageCluster(self, lat_deg, lon_deg, delta_lat, delta_long, zoom):
         xmin, ymax = deg2num(lat_deg, lon_deg, zoom)
@@ -81,7 +63,7 @@ class Map_OSM(Map):
         for xtile in range(xmin, xmax + 1):
             for ytile in range(ymin, ymax + 1):
                 try:
-                    tyle_bytes = self.getTileAsBytes(zoom, xtile, ytile)
+                    tyle_bytes = self.tile_manager.getTileAsBytes(zoom, xtile, ytile)
                     tile = Image.open(tyle_bytes)
                     Cluster.paste(
                         tile, box=((xtile - xmin) * 255, (ytile - ymin) * 255)

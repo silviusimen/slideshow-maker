@@ -4,7 +4,7 @@ from .geolocation import Geolocation
 
 class GeoBox(SerializableObject):
     def __init__(self, min: Geolocation = None, max: Geolocation = None):
-        SerializableObject.__init__(self)
+        super().__init__()
         self.set("min", min)
         self.set("max", max)
 
