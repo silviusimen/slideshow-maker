@@ -25,13 +25,14 @@ http_cache.load()
 
 tileManager = TileManager(http_cache)
 map = Map(tileManager)
+# zoom = map.size_to_zoom(1000)
 
 for key, value in clusters.items():
     size = value["size"]
     center = value["center"]
     print(f"{key} size={size} center={center}")
     filename = f"tmp/map_{key}.png"
-    image = map.render_map_image(center, 12)
+    image = map.render_map_image(center, size)
     image.save(filename)
 
 # cluster_dict[key]["bounding_box"] = boundig_box

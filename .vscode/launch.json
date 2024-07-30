@@ -8,7 +8,7 @@
       "name": "Python Debugger: Current File",
       "type": "debugpy",
       "request": "launch",
-      "program": "process.py",
+      "program": "slideshowmaker.py",
       "console": "integratedTerminal"
     }
   ]

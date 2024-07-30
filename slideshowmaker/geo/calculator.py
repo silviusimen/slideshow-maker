@@ -1,11 +1,20 @@
 # from https://www.geeksforgeeks.org/program-distance-two-points-earth/
 
-from math import radians, cos, sin, asin, sqrt
+from math import radians, cos, sin, asin, sqrt, pi
 from ..models.geolocation import Geolocation
 from ..models.geobox import GeoBox
 
 
 class GeoCalculator:
+
+    def earth_radius_km():
+        # Radius of earth in kilometers. Use 3956 for miles
+        return 6372.7982
+
+    def distance_km_to_deg(distance: float):
+        degrees = distance * 360.0 / (2 * pi * GeoCalculator.earth_radius_km())
+        return degrees
+
     def distance_km(lat1, lat2, lon1, lon2):
 
         # The math module contains a function named
@@ -22,8 +31,7 @@ class GeoCalculator:
 
         c = 2 * asin(sqrt(a))
 
-        # Radius of earth in kilometers. Use 3956 for miles
-        r = 6371
+        r = GeoCalculator.earth_radius_km()
 
         # calculate the result
         return c * r

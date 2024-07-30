@@ -4,6 +4,7 @@ import requests
 import base64
 from io import BytesIO
 
+
 class CachedHttpRequest:
     def __init__(self, cache: Cache):
         self.cache = cache
@@ -15,12 +16,12 @@ class CachedHttpRequest:
         if tile_cache != None:
             return BytesIO(base64.b64decode(tile_cache))
 
-        response = requests.get(
-            url, headers=headers
-        )
-
-        cache_value = base64.b64encode(response.content).decode("ascii")
-        self.cache.set(cache_key, cache_value)
-        # self.cache.save()
-        result_bytes = BytesIO(response.content)
-        return result_bytes
+        response = requests.get(url, headers=headers)
+        if response.status_code < 300:
+            cache_value = base64.b64encode(response.content).decode("ascii")
+            self.cache.set(cache_key, cache_value)
+            # self.cache.save()
+            result_bytes = BytesIO(response.content)
+            return result_bytes
+        else:
+            print(f"Failed to fecth from {url} : {str(response.content)}")

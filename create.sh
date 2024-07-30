@@ -10,7 +10,7 @@ fi
 
 if [ ! -f "$AUDIO_FILE" ] ; then
 	# https://uppbeat.io/track/brock-hewitt-stories-in-sound/ages-ago
-  DEFAULT_AUDIO_FILE=audio_media/ages-ago-brock-hewitt-stories-in-sound-main-version-16212-04-06.mp3
+	DEFAULT_AUDIO_FILE=audio_media/ages-ago-brock-hewitt-stories-in-sound-main-version-16212-04-06.mp3
 	echo "Invalid input audio track $AUDIO_FILE, using default $DEFAULT_AUDIO_FILE"
 	AUDIO_FILE="$DEFAULT_AUDIO_FILE"
 fi
