@@ -67,14 +67,24 @@ def process_slide_spec(name: str):
     if len(tokens) < 3:
         return None
     name = tokens[0].strip()
+    place = None
+    place_tokens = name.split('@')
+    if len(place_tokens) > 1:
+        name = place_tokens[0].strip()
+        place = place_tokens[1].strip()
     date = tokens[1].strip()
     pic = os.path.join(BKG_PHOTO_DIR, tokens[2].strip())
     basefilename=f"{name}-{date}".replace(',','').replace(' ','').lower()
     outfile = f"{TMP_DIR}slide_{basefilename}.jpg"
-    background_cmd=f"{pic} -size {WIDTH}x{HEIGHT} -set colorspace Gray -separate -average"
-    name_cmd=f"-gravity North -pointsize 60 -strokewidth 1 -stroke tan3 -fill tan1 -annotate +0+100 '{name}'"
-    date_cmd=f"-gravity South -pointsize 30 -strokewidth 1 -stroke yellow3 -fill yellow1 -annotate +0+100 '{date}'"
-    exec(f"convert {background_cmd} {name_cmd} {date_cmd} {outfile}")
+    color_name='OliveDrab'
+    color_date='goldenrod'
+    background_cmd=f"{pic} -resize {WIDTH}x{HEIGHT} -set colorspace Gray -separate -average"
+    name_cmd=f"-gravity North -pointsize 120 -strokewidth 3 -stroke {color_name}4 -fill {color_name}2 -annotate +0+100 '{name}'"
+    place_cmd = ""
+    if place != None:
+        place_cmd=f"-gravity North -pointsize 100 -strokewidth 3 -stroke {color_name}4 -fill {color_name}2 -annotate +0+300 '{place}'"
+    date_cmd=f"-gravity South -pointsize 100 -strokewidth 3 -stroke {color_date}3 -fill {color_date}1 -annotate +0+100 '{date}'"
+    exec(f"convert {background_cmd} {name_cmd} {place_cmd} {date_cmd} {outfile}")
     return outfile
 
 def process_file(name: str):
