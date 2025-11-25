@@ -10,7 +10,7 @@
 # Steps
 
 ```
-find /mnt/c/data/to_bakup/pics/2025/Berlin/ -type f > data/2025-berlin.txt
+find /mnt/c/data/to_bakup/pics/2025/Berlin/ -type f | sort > data/2025-berlin.txt
 ls -l data/stock/berlin.jpg
 head -n 1 data/2025-berlin.txt
 -- Around Berlin @ Berlin, Germany ; June, 2025 ; berlin.jpg
